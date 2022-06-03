@@ -19,6 +19,7 @@ Output: true
 
 """
 
+
 class Solution:
     def validMountainArray(self, arr: List[int]) -> bool:
 
@@ -44,6 +45,7 @@ class Solution:
         starting_gradient = False
         pos_gradient = 0
 
+        lasting_gradient = False
         neg_gradient = 0
 
         # looping through
@@ -51,13 +53,24 @@ class Solution:
 
             # for posituve
             if arr[step] > arr[step - 1]:
-                if pos_gradient == False:
-                    gradient =
+                if starting_gradient == False:
+                    pos_gradient = arr[step] - arr[step - 1]  # Indices increase by 1 always so denominator is not need
+                    starting_gradient = True
+                    continue
+                if arr[step] - arr[step - 1] != pos_gradient:
+                    return False
 
-                    # for negative
+            # for negative
             elif arr[step] < arr[step - 1]:
-
+                if lasting_gradient == False:
+                    neg_gradient = arr[step] - arr[step - 1]
+                    lasting_gradient = True
+                if arr[step] - arr[step - 1] != neg_gradient
+                    return False
 
             # flat surface a=cannot make a mountain
             else:
                 return False
+
+            # all cases would have passed
+            return True
