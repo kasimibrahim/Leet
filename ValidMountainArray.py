@@ -23,62 +23,21 @@ Output: true
 class Solution:
     def validMountainArray(self, arr: List[int]) -> bool:
 
-        """
-        We want consistency in the gradient so we calculate the gradient for the positive,
-        and then the gradient for the negitve.
-        these values must be consistent until we are done loop
+        step = 0
+        distance = len(arr)
 
+        # climbing up
+        # this means if the conditions are true for all distance, then it is not a valid mountain
+        while step + 1 < distance and arr[step] < arr[step + 1]:
+            step += 1
 
-        so
-        we start at x = 1 where x is an index
-
-        then we say
-        gradient = arr[x] - arr[x-1] / x - 1
-        this is our first gradient, meaning that subsequent gradients should not differ from this one
-
-        thus
-
-        if arr[x_2] - arr[x_1] / x_2 - x_1 != gradient:
-              then we return false
-
-        """
-        starting_gradient = False
-        pos_gradient = 0
-
-        lasting_gradient = False
-        neg_gradient = 0
-
-        # looping through
-        for step in range(1, len(arr)):
-
-            # for posituve
-            if arr[step] > arr[step - 1]:
-                if starting_gradient == False:
-                    pos_gradient = arr[step] - arr[step - 1]  # Indices increase by 1 always so denominator is not need
-                    starting_gradient = True
-                    continue
-                if arr[step] - arr[step - 1] != pos_gradient:
-                    return False
-
-            # for negative
-            elif arr[step] < arr[step - 1]:
-
-                # We cannot descend when we have not ascended
-                if starting_gradient == False:
-                    return False
-
-                if lasting_gradient == False:
-                    neg_gradient = arr[step] - arr[step - 1]
-                    lasting_gradient = True
-                if arr[step] - arr[step - 1] != neg_gradient:
-                    return False
-
-            # flat surface a=cannot make a mountain
-            else:
-                return False
-
-            if neg_gradient < 0 and pos_gradient > 0:
-                if abs(neg_gradient) == pos_gradient:
-                    return True
-                return True
+        # after checking for climbing, we check if we did not move up at all of covered all distance, if true then it is not a mountain
+        if step == 0 or step == distance - 1:
             return False
+
+        # after checking for all climbing, we descend to see whether we will cover all the distance
+        while step + 1 < distance and arr[step] > arr[step + 1]:
+            step += 1
+
+        # If there was no flat surface, then we are supposed to reach destination
+        return step == distance - 1
