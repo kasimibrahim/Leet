@@ -62,15 +62,23 @@ class Solution:
 
             # for negative
             elif arr[step] < arr[step - 1]:
+
+                # We cannot descend when we have not ascended
+                if starting_gradient == False:
+                    return False
+
                 if lasting_gradient == False:
                     neg_gradient = arr[step] - arr[step - 1]
                     lasting_gradient = True
-                if arr[step] - arr[step - 1] != neg_gradient
+                if arr[step] - arr[step - 1] != neg_gradient:
                     return False
 
             # flat surface a=cannot make a mountain
             else:
                 return False
 
-            # all cases would have passed
-            return True
+            if neg_gradient < 0 and pos_gradient > 0:
+                if abs(neg_gradient) == pos_gradient:
+                    return True
+                return True
+            return False
